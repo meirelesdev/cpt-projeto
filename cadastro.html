@@ -6,6 +6,11 @@
     <title>Document</title>
 </head>
 <body>
+    <nav>
+        <a href="carros.html">Lista de carros</a>
+        <a href="contato.html">Contato</a>
+        <a href="lista-contatos.html">Lista de contatos</a>
+    </nav>
     <h1>AutoCaross MEIRELES</h1>
     
     <p>Cadastro de Carros para venda</p>
@@ -25,23 +30,27 @@
         <input type="number" name="preco" id="preco" placeholder="Ex: 19350" required>
         <br>
         <label for="descricao">Descrição:</label>
-        <textarea name="descricao" id="descricao" cols="30" rows="5" placeholder="Ex: Carro lindo e confortável">
-        </textarea>
+        <textarea name="descricao" id="descricao" cols="30" rows="5" placeholder="Ex: Carro em otimo estado, unico dono, bem conservado!"></textarea>
         <br>
         <button type="submit">Cadastrar</button>
     </form>
 
     <script>
 
+        // Pega o formulario para monitorar quando for enviado
+        var formDeCadastro = document.getElementById("cadastro")
+        // Monitora o formulario e chama a função cadastrarCarro caso seja enviado
+        formDeCadastro.addEventListener("submit", cadastrarCarro)
+        
+        
+        // Função para cadastrar carro.
         function cadastrarCarro(e) {
-
+            // Previnindo o refresh da pagina
             e.preventDefault()
-            //Previnindo o refresh da pagina
-            // obtem os dados dos campos do formulario
-            
+            // Obtem os dados dos campos do formulario
             let dadosDeCadastro = new FormData(formDeCadastro)
-
-            // obtem o modelo do carro
+            
+            // Salva em um Objeto os dados do carro
             let carro = {
                 marca: dadosDeCadastro.get("marca"),
                 modelo: dadosDeCadastro.get("modelo"),
@@ -49,11 +58,12 @@
                 preco: Number(dadosDeCadastro.get("preco")),
                 descricao: dadosDeCadastro.get("descricao"),
             }
+            // Verifica se o ano e o preco foram preenchidos
             if ( !carro.ano || !carro.preco ) {
                 alert("Por favor, preencha o modelo, ano e o preço do carro!")
                 return false
             }
-                        
+            // Verifica se o preco e esta com formato e valor validos
             if ( isNaN(carro.preco) ) {
                 alert("O preço não é um numero invalido!")
                 return false
@@ -67,25 +77,48 @@
                 alert("Não há registros de carros antes de 1886, criado por Karl Benz!")
                 return false
             }
-                        
-            // Prepara a mensagem de sucesso
-            var mensagem = `O carro ${carro.marca} ${carro.modelo} / ${carro.ano} foi cadastrado com sucesso!`
-
-            salvarCarro(carro)
             
+            // Chamada da função para salvar o carro no banco
+            // Que vai salvar o novo carro e retornar o total de carros cadastrados
+            let totalCarrosNoBanco = salvarCarro(carro)
+            
+            // Prepara a mensagem de sucesso
+            var mensagem = `O carro ${carro.marca} ${carro.modelo} / ${carro.ano} foi cadastrado com sucesso! Total de carros cadastrados: ${totalCarrosNoBanco}`
+            
+            // Envia mensagem de sucesso para o usuario
             alert(mensagem)
             
+            // Limpando os dados do formulario
+            formDeCadastro.reset()
+            
         }
-        var formDeCadastro = document.getElementById("cadastro")
-        
-        formDeCadastro.addEventListener("submit", cadastrarCarro)
-        
+        // Função para salvar o carro no banco de dados
         function salvarCarro(carro){
-            // Converte o objeto carro recebido em json/string    
-            var carroJSON = JSON.stringify(carro)
-            // Salva o texto no banco usando a cha 'carros'
-            localStorage.setItem("carros", carroJSON)
+            //1- Aqui a gente le o banco em formato de texto
+            let bancoDeCarrosJSON = localStorage.getItem("carros")
+            // Declaramos a variavel que vai representar a lista
+            let listaDeCarros
+            // Verificamos se o banco de carros está vazia
+            if ( !bancoDeCarrosJSON ) {
+                // Se estiver, criamos uma lista vazia
+                listaDeCarros = []
+            } else {
+                // Senão, a gente converte o JSON para uma lista de objetos
+                listaDeCarros = JSON.parse(bancoDeCarrosJSON)
+                
+            }
+            // Adicionamos o carro no banco com a função push da lista
+            listaDeCarros.push(carro)
+            // Armazena o total de carros cadastrados
+            let totalCarros = listaDeCarros.length
+            
+            // Converte o objeto listaDeCarros contendo o novo carro json/string    
+            bancoDeCarrosJSON = JSON.stringify(listaDeCarros)
+            // Salva A lista de carros no banco usando a cha 'carros'
+            localStorage.setItem("carros", bancoDeCarrosJSON)
 
+            // Retorna o total de carros cadastrados
+            return totalCarros
         }
     </script>
 </body>

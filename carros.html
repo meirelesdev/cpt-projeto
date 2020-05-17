@@ -6,23 +6,119 @@
     <title>Document</title>
 </head>
 <body>
+    <nav>
+        <a href="cadastro.html">Cadastro de Carros</a>
+        <a href="contato.html">Contato</a>
+        <a href="lista-contatos.html">Lista de contatos</a>
+    </nav>
     <h1>AutoCarros Meireles</h1>
     <p>Veja aqui nosso magnífico estoque de carros disponiveis a venda! Preços impativeis você só irá achar aqui!</p>
     <h3>Lista de Carros</h3>
+    <label for="limiteDeCarros">Limitar Número de Carros:</label>
+    <select id="limiteDeCarros" onchange="ajustarLimiteDeCarros()">
+        <option value="5" selected>5 Carros</option>
+        <option value="10">10 Carros</option>
+        <option value="15">15 Carros</option>
+        <option value="20">20 Carros</option>
+    </select>
+    <label for="filtroDeMarca">Filtrar Marca do Veículo:</label>
+    <select id="filtroDeMarca" onchange="filtrarMarca()">
+        <option value="" selected>Todos</option>
+        <option value="Volkswagen">Volkswagen</option>
+        <option value="Ford">Ford</option>
+        <option value="Agrale">Agrale</option>
+        <option value="BMW">BMW</option>
+        <option value="Chevrolet">Chevrolet</option>
+    </select>
+    <!-- div que recebera a lista de carros  -->
     <div id="carros"></div>
-    <script>
-        let carroEmJSON = localStorage.getItem("carros")
-        let carro = JSON.parse(carroEmJSON)
 
-        let divCarros = document.getElementById('carros')
-        divCarros.innerHTML = `
-            <h3>${carro.marca} ${carro.modelo} / Ano - ${carro.ano}</h3>
-            <p>
-            <strong>Apenas: R$ ${carro.preco}</strong>
-            <br>
+    <script>
+            // Criando o filtro da pagina
+            // Será usado na função filtrarMarca e filtrarCarros
+            let filtrosDaPagina ={
+                marca:"",
+                limite:5
+            }
+
+            // Pegamos a lista de carros do banco, ele manda ela em JSON
+            let carrosEmJSON = localStorage.getItem("carros")
+            // Transformamos a lista de carros de JSON para Objeto
+            let carros = JSON.parse(carrosEmJSON)
+            // Recumeramos a div que vai receber a lista de carros
+            let divCarros = document.getElementById('carros')
+                                
+    // Esta função executa uma vez quando a pagina é recarregada
+    // E depois executa toda vez que o select é modificado
+    filtrarCarros()
+
+    function filtrarCarros() {
+        // Limpamos a lista de carros
+        divCarros.innerHTML = ''
+        // Iniciamos um contador para exibir so um determinado numero de carros na tela
+        let carrosImpressos = 0
+        // Percorremos a lista de carros um por um
+        for ( let carro of carros ) {
+            // Primeiro verificamos se o filtro por marca foi selecionado
+            // Se sim Verificamos se a marca do carro da vez é diferente do que foi selecionado no filtro
+            if ( filtrosDaPagina.marca && carro.marca !== filtrosDaPagina.marca) {
+                // Caso o filtro da marca foi apontado e o carro da vez for diferente do filtro para este loop
+                // E inicia o proximo
+                continue
+            }
+        // Se não entrar no if acima irá imprimir o carro da vez
+        imprimirCarro(carro)
+        
+        // Incrementamos a variavel carrosImpressos 
+        carrosImpressos++
+
+            // Verificamos se a quantidade de carros na tela é igual ao limite no filtro
+            if( carrosImpressos === filtrosDaPagina.limite ){
+                //Caso a quant. de carros na tela seja igual ao limite do filtro
+                // Saimos do loop
+                break
+            }
+        }
+    }
+    // Criando a função para filtrar por marca
+    // Essa função so é chamada quando a mudanças no select de marcas
+    function filtrarMarca() {
+        // Pegando o select
+        let filtroDeMarca = document.getElementById('filtroDeMarca')
+        // Objeto fitroDaPagina foi criado no inicio do script
+        // E recebe o valor que o usuario selecionou no select
+        filtrosDaPagina.marca = filtroDeMarca.value
+        // Chamamos a função filtrarCarros
+        // Ela aplicara os filtros e chamara a função que coloca na tela
+        filtrarCarros();
+    }
+    //Criamos esta função para limitar a quantidade de carros exibidos
+    // Essa função so é chamada quando a mudanças no select de limite
+    function ajustarLimiteDeCarros() {
+        // Pegamos o select
+        let limiteDeCarros = document.getElementById('limiteDeCarros')
+        // Convertemos para numeros e guardamos o valor selecionado no obj filtrosDaPagina
+        filtrosDaPagina.limite = Number(limiteDeCarros.value)
+        // Chamamos a função filtrarCarros para que as alterações sejam aplicadas
+        filtrarCarros()
+        
+    }
+    // Função para colocar novo carro na pagina
+    // Essa função só é chamada dentro da função filtrarCarros
+    function imprimirCarro(carro){
+        // Formatação do conteudo que vai dentro da div que lista os carros 
+        let textoDoCarro = `
+                <h3>${carro.marca} ${carro.modelo} / Ano - ${carro.ano}</h3>
+                <p>
+                <strong>Apenas: R$ ${carro.preco}</strong>
+                <br>
                 ${carro.descricao}
-            </p>
+                </p>
         `
+        // Inserimos o conteudo na div
+        divCarros.innerHTML = divCarros.innerHTML + textoDoCarro
+    }
+
     </script>
 </body>
 </html>

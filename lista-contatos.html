@@ -6,30 +6,56 @@
     <title>Document</title>
 </head>
 <body>
+    <nav>
+        <a href="cadastro.html">Cadastro de Carros</a>
+        <a href="carros.html">Lista de carros</a>
+        <a href="contato.html">Contato</a>
+    </nav>
     <h1>AutosCarros MEIRELES</h1>
     <p>Veja abaixo a lista de contatos enviados para o site:</p>
-    <h2>Lista de Conttos</h2>
+    <h2>Lista de Contatos</h2>
     <div id="contatos"></div>
         
     <script>
-        let contatosJSON = localStorage.getItem("contatos")
-        let contato = JSON.parse(contatosJSON)
+        // Pegamos no banco de dados os contatos
+        let contatos = localStorage.getItem("contatos")
+        // Pegamos o elemento que recebera os dados de contato
+        let divContatos = document.getElementById('contatos')
+        // Transformamos os contatos de string para Objeto
+        contatos = JSON.parse(contatos)
+        // Verificamos se temos contatos
+        if ( !contatos ){
+            // caso nao tenha enviamos uma mensagem
+            divContatos.innerHTML = '<p>Sem contatos no momento</p>'
+        } else {
+            // Caso tenha contatos percoremos eles com o forin
+            for (let i in contatos) {
+                // para cada contato chamamos a função imprimir
+                // o retorno da função é o conteudo que sera apresentado por casa contato
+                divContatos.innerHTML += imprimirContatos(contatos[i])
+            }            
+        }
 
-        let divContatos = `
-        <h3>${contato.nomeCompleto} ${contato.email}</h3>
-        <p>
-            <strong>Data/hora:</strong> ${contato.dataHora}
-            <br>
-            <strong>Telefone:</strong> ${contato.telefone}
-            <br>
-            <strong>Mensagem:</strong>
-            <br>
-            ${contato.mensagem}
-        </p>    
-        `
-        let div = document.getElementById('contatos')
-        
-            div.innerHTML = divContatos
+        //Declaração da função imprimir
+        function imprimirContatos(contato){
+            // A função imprimir recebe um contato
+            // e criamos a estrutura de apresentação do contato
+            let content = `
+            <h3>${contato.nomeCompleto} ${contato.email}</h3>
+            <p>
+                <strong>Data/hora:</strong> ${new Date(contato.dataHora)}
+                <br>
+                <strong>Telefone:</strong> ${contato.telefone}
+                <br>
+                <strong>Mensagem:</strong>
+                <br>
+                ${contato.mensagem}
+            </p>    
+            `
+            // Retornamos o conteudo
+            return content
+            
+        }
     </script>
 </body>
 </html>

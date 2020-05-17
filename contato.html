@@ -6,7 +6,11 @@
     <meta name="description" content="Pagina de exercicios desenvolvida na comunidade codigopratodos.com">
 </head>
 <body>
-
+    <nav>
+        <a href="cadastro.html">Cadastro de Carros</a>
+        <a href="carros.html">Lista de carros</a>
+        <a href="lista-contatos.html">Lista de contatos</a>
+    </nav>
 
    <h1>Autocarros MEIRELES</h1>
 <p>
@@ -31,11 +35,19 @@
 </form>
 
     <script>
+        // Pegamos o fomulario para manipula-lo
         let formContato = document.getElementById('contato')
-
+        // Criamos um listener para verificar quando ele é enviado(submit)
+        // E chamamos a função envarContato quando enviado
+        formContato.addEventListener("submit", enviarContato)
+        
+        // Criação da função enviarContato
         function enviarContato(e){
+            // Previnimos o envio padrao do submit
             e.preventDefault()
+            // Pegamomos os dados do formulario
             let dadosFormContato = new FormData(formContato)
+            // Criamos um objeto com os dados deste contato
             let contato = {
                 nomeCompleto: dadosFormContato.get('nomeCompleto'),
                 email: dadosFormContato.get('email'),
@@ -43,22 +55,40 @@
                 mensagem: dadosFormContato.get('mensagem'),
                 dataHora: Date.now()
             }
+            // Chamamos a função que vai salvar o contato no banco de dados
+            salvarContato(contato)
+            // Criação da mensagem de sucesso para apresentar ao usuario
                 let msg = `Ei, ${contato.nomeCompleto}, Sua mensagem foi enviada com sucesso, Por Favor, Aguarde nosso retorno!`
-            
-                salvarContato(contato)
-
-                alert(msg)
+            // Dar um alerta na mensagem
+            alert(msg)
+            // Limpando o formulario
+            formContato.reset()
             
         }
 
-        formContato.addEventListener("submit", enviarContato)
 
-
+        // Criação da função que salva o contato no banco
         function salvarContato(contato) {
-
-            let contatoJSON = JSON.stringify(contato)
+            // 1. Pegar os dados dos contatos ja salvos no banco
+            let contatosBanco = localStorage.getItem('contatos')
             
-            localStorage.setItem("contatos", contatoJSON)
+            // Variavel que vai armazenar o Objeto que estava no banco
+            let listaContatos
+
+            // 3. Verificamos se o banco ja tinha contatos
+            if ( !contatosBanco ) {
+                // caso não tenha contatos
+                listaContatos = []
+            } else {
+                // caso ja tenha algum contato transformamos ele em Objeto
+                // E colocamos dentro da listaContatos
+                listaContatos = JSON.parse(contatosBanco)
+            }
+            // Adicionamos o novo contato na lista
+            listaContatos.push(contato)
+            
+            // salvar novamente do banco a lista completa            
+            localStorage.setItem("contatos", JSON.stringify(listaContatos))
 
         }
     </script>
