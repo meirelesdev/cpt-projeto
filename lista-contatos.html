@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>AutosCarros MEIRELES</h1>
+    <p>Veja abaixo a lista de contatos enviados para o site:</p>
+    <h2>Lista de Conttos</h2>
+    <div id="contatos"></div>
+        
+    <script>
+        let contatosJSON = localStorage.getItem("contatos")
+        let contato = JSON.parse(contatosJSON)
+
+        let divContatos = `
+        <h3>${contato.nomeCompleto} ${contato.email}</h3>
+        <p>
+            <strong>Data/hora:</strong> ${contato.dataHora}
+            <br>
+            <strong>Telefone:</strong> ${contato.telefone}
+            <br>
+            <strong>Mensagem:</strong>
+            <br>
+            ${contato.mensagem}
+        </p>    
+        `
+        let div = document.getElementById('contatos')
+        
+            div.innerHTML = divContatos
+    </script>
+</body>
+</html>

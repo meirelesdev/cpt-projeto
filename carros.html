@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>AutoCarros Meireles</h1>
+    <p>Veja aqui nosso magnífico estoque de carros disponiveis a venda! Preços impativeis você só irá achar aqui!</p>
+    <h3>Lista de Carros</h3>
+    <div id="carros"></div>
+    <script>
+        let carroEmJSON = localStorage.getItem("carros")
+        let carro = JSON.parse(carroEmJSON)
+
+        let divCarros = document.getElementById('carros')
+        divCarros.innerHTML = `
+            <h3>${carro.marca} ${carro.modelo} / Ano - ${carro.ano}</h3>
+            <p>
+            <strong>Apenas: R$ ${carro.preco}</strong>
+            <br>
+                ${carro.descricao}
+            </p>
+        `
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lampada - JavaScript</title>
+    <style>
+
+        div{
+            background-image: url("imgs/lampada-acesa.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Olá!</h1>
+    <div id="img">
+
+    </div>
+    <!-- <img src="imgs/lampada-acesa.png" width="300" alt=""> -->
+    <!-- <img src="imgs/lampada-acesa.png" width="280" height="220" alt=""> -->
+    <p>Nossa, como está tudo claro por aqui!</p>
+    <button id="btnLamp">Apagar</button>
+    
+    <script>
+
+        // Pega o botão 
+        let btnLampada = document.getElementById('btnLamp')
+        // Monitora o evento click para apagar ou acender a lampada
+        btnLampada.addEventListener('click', ()=>{
+            // A lampada vai acender ou apagar conforme o resultado desta condição
+            if(btnLampada.innerText === "Acender"){
+                // Caso no botão esteja escrito acender, chamamos a função acenderLampada()
+                acenderLampada()                
+            } else {
+                // Caso no botãp esteja escrito apagar, chamamos a função apagarLampada()
+                apagarLampada()
+            }
+
+        })
+
+        function acenderLampada(){
+                document.querySelector("h1").innerText = "Olá!"
+                document.body.style.backgroundColor = 'white'
+                document.body.style.color = 'black'
+                document.querySelector('p').innerText = 'Nossa, como está tudo claro por aqui!'
+                btnLampada.innerText = 'Apagar'
+                document.querySelector('#img').style.backgroundImage = "url('imgs/lampada-acesa.png')"
+                
+        }
+        
+        function apagarLampada() {
+                document.querySelector("h1").innerText = "ZZzzzzZZZZzzzz.."
+                document.body.style.backgroundColor = 'black'
+                document.body.style.color = 'white'
+                document.querySelector('p').innerText = 'hora de mimi...'
+                btnLampada.innerText = 'Acender'
+                document.querySelector('#img').style.backgroundImage = "url('imgs/lampada-apagada.png')"
+        }
+    </script>
+    
+</body>
+</html>

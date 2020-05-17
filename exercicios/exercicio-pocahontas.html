@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A História da Pocahontas</title>
+    <style>
+        div{
+           display: none; 
+        }
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>A História da Pocahontas</h1>
+    <header>
+        <nav>
+            
+            <button class="cap1">1: Uma jovem índia</button>
+            <button class="cap2">2: um pouco confusa</button>
+            <button class="cap3">3: navio Suzan Constant</button>
+            <button class="cap4">4: a floresta</button>
+            <button class="cap5">5: a guerra</button>
+            <button class="cap6">6: despedida</button>
+        </nav>
+    </header>
+    <section id="conteudo">
+        <div id="cap0" class="show">
+            <h2>Como funciona a Leitura?</h2>
+            <p>Esta é uma pagina interativa, e ao terminar de ler o capitulo voce clica no botao acima para ir ao proximo, simples assim!</p>
+            <p>Aproveite a leitura...</p>
+        </div>
+        <div id="cap1">
+            <h2>Capítulo 1: Uma Jovem Índia</h2>
+            <p>
+            Há muitos anos, nas terras da Virgínia, vivia uma jovem índia chamada
+            Pocahontas. Um dia seu pai, o grande chefe Ponhatan, comunico-lhe que
+            Kocoum, o guerreiro mais valente da tribo, havia pedido em casamento.
+            </p>
+        </div>
+        <div id="cap2">
+            <h2>Capítulo 2: Um Pouco Confusa</h2>
+            <p>Pocahontas, confusa, foi pedir conselho à Avó Willow, um velho espírito que habitava uma árvore na Floresta Encantada.
+            </p>
+            <p>– Vovó – perguntou Pocahontas – o que devo fazer?</p>
+            <p>– Minha jovem, tudo à sua volta são espíritos. Ouça-os com o coração e eles lhe mostrarão o caminho.
+            </p>
+        </div>
+        <div id="cap3">
+            <h2>Capítulo 3: O Navio Suzan Constant</h2>
+            <p>O navio “Suzan Constant” acabava da aportar na Virgínia. Neles viajavam colonos ingleses comandados pelo governador Radcliffe e pelo capitão John Smith.</p>
+            <p>Vinham em busca de terras e ouro. Tão logo desembarcaram, o governador ordenou ao capitão que fosse inspecionar o lugar.</p>
+        </div>
+        <div id="cap4">
+            <h2>Capítulo 4: A Floresta</h2>
+            <p>
+                Ao entardecer, enquanto John Smith explorava a floresta, ouviu um ruído. Não lhe deu importância e se aproximou do rio para beber água.
+            </p>
+            <p>
+                Nesse momento, notou que alguém o seguia. Escondido, preparou sua arma e, quando ia atirar, descobriu a moça mais linda que já tinha visto: Pocahontas.
+            </p>
+            <p>
+                Embora a princípio a jovem aparentava estar assustada, logo confiou em John. Juntos compartilharam momentos muito felizes, descobrindo os segredos da natureza. Mas a felicidade de Pocahontas e John Smith durou pouco...
+            </p>
+        </div>
+        <div id="cap5">
+            <h2>Capítulo 5: A Guerra</h2>
+            <p>
+                A ganância de Ratcliffe havia colocado os colonos contra os índios. Pocahontas tentou evitar a guerra, mas um dos colonos disparou contra Kocoum e o matou. Os índios condenaram o capitão Smith à morte.
+            </p>
+            <p>
+                No momento em que iam executá-lo, Pocahontas se pôs à frente de John, para protegê-lo.
+            </p>
+            <p>
+                – Se o matarem, terão de me matar primeiro – disse a seu pai.
+            </p>
+            <p>
+                Os colonos, surpresos com a coragem de Pocahontas, baixaram as armas.
+            </p>
+            <p>
+                Radcliffe, furioso disparou contra Pohantan. O valente Smith se colocou à frente do chefe índio e o tiro o atingiu.
+            </p>
+        </div>
+        <div id="cap6" >
+            <h2>
+                Capítulo 6: Despedida
+            </h2>
+            <p>
+                Diante da gravidade dos ferimentos, John teve de voltar à Inglaterra.
+            </p>
+            <p>
+                Pocahontas se despediu dele sabendo que um levaria o outro para sempre no coração.
+            </p>
+        </div>
+    </section>
+    <footer>
+        <p>Fonte: <a href="https://www.estudokids.com.br/historias-para-ler/">https://www.estudokids.com.br/historias-para-ler/</a></p>
+    </footer>
+
+    <script>
+    
+    let btn = document.getElementsByTagName('button')
+        
+        for (const i in btn) {
+            btn[i].onclick = mostrarCapitulo
+        }
+
+        function mostrarCapitulo(e) {
+            
+            e.preventDefault()
+
+            let showEsta = e.target.className
+            
+            let capitulos = document.getElementsByTagName('div')
+            let capShow = document.getElementById(showEsta)
+            
+            for(let i = 0; i < capitulos.length; i++) {
+                if(capitulos[i].classList.contains('show')){
+                    capitulos[i].classList.remove('show')
+                }
+            }
+            capShow.classList.add('show')
+        }
+    </script>
+</body>
+</html>

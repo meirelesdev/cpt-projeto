@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>AutoCaross MEIRELES</h1>
+    
+    <p>Cadastro de Carros para venda</p>
+    <p>Para adicionar um novo carro, preencha o formulario a seguir:</p>
+
+    <form action="" id="cadastro">
+        <label for="marca">Marca:</label>
+        <input type="text" name="marca" id="marca" placeholder="Ex: Volkswagen" required>
+        <br>
+        <label for="modelo">Modelo:</label>
+        <input type="text" name="modelo" id="modelo" placeholder="Ex: Gol" required>
+        <br>
+        <label for="ano">Ano:</label>
+        <input type="text" name="ano" id="ano" placeholder="Ex: 2013" required>
+        <br>
+        <label for="preco">Preço:</label>
+        <input type="number" name="preco" id="preco" placeholder="Ex: 19350" required>
+        <br>
+        <label for="descricao">Descrição:</label>
+        <textarea name="descricao" id="descricao" cols="30" rows="5" placeholder="Ex: Carro lindo e confortável">
+        </textarea>
+        <br>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <script>
+
+        function cadastrarCarro(e) {
+
+            e.preventDefault()
+            //Previnindo o refresh da pagina
+            // obtem os dados dos campos do formulario
+            
+            let dadosDeCadastro = new FormData(formDeCadastro)
+
+            // obtem o modelo do carro
+            let carro = {
+                marca: dadosDeCadastro.get("marca"),
+                modelo: dadosDeCadastro.get("modelo"),
+                ano: Number(dadosDeCadastro.get("ano")),
+                preco: Number(dadosDeCadastro.get("preco")),
+                descricao: dadosDeCadastro.get("descricao"),
+            }
+            if ( !carro.ano || !carro.preco ) {
+                alert("Por favor, preencha o modelo, ano e o preço do carro!")
+                return false
+            }
+                        
+            if ( isNaN(carro.preco) ) {
+                alert("O preço não é um numero invalido!")
+                return false
+            } else if(carro.preco <= 0 ){
+                alert("O preço precisa ser maior que zero!")
+                return false
+            } else if ( isNaN(carro.ano) ) {
+                alert("Número do ano do carro está inválido!")
+                return false
+            } else if( carro.ano < 1886 ) {
+                alert("Não há registros de carros antes de 1886, criado por Karl Benz!")
+                return false
+            }
+                        
+            // Prepara a mensagem de sucesso
+            var mensagem = `O carro ${carro.marca} ${carro.modelo} / ${carro.ano} foi cadastrado com sucesso!`
+
+            salvarCarro(carro)
+            
+            alert(mensagem)
+            
+        }
+        var formDeCadastro = document.getElementById("cadastro")
+        
+        formDeCadastro.addEventListener("submit", cadastrarCarro)
+        
+        function salvarCarro(carro){
+            // Converte o objeto carro recebido em json/string    
+            var carroJSON = JSON.stringify(carro)
+            // Salva o texto no banco usando a cha 'carros'
+            localStorage.setItem("carros", carroJSON)
+
+        }
+    </script>
+</body>
+</html>
