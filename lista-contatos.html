@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>AutosCarros MEIRELES - Lista de Contatos</title>
 </head>
 <body>
     <nav>
@@ -14,27 +14,95 @@
     <h1>AutosCarros MEIRELES</h1>
     <p>Veja abaixo a lista de contatos enviados para o site:</p>
     <h2>Lista de Contatos</h2>
+    <label for="filtroTelefone">Fitrar Telefone:</label>
+    <select id="filtroTelefone" onchange="filtrarPorTelefone()">
+        <option value="" selected>Mostrar Todos</option>
+        <option value="CT" >Clientes com Telefone</option>
+        <option value="ST" >Clientes sem Telefone</option>
+    </select>
+    <label for="limiteContatos">Limitar nº de Mensagems</label>
+    <select id="limiteContatos" onchange="filtrarLimite()">
+        <option value="5" selected>5 Mensagens</option>
+        <option value="15">15 Mensagens</option>
+        <option value="25">25 Mensagens</option>
+        <option value="50">50 Mensagens</option>
+    </select>
     <div id="contatos"></div>
         
     <script>
-        // Pegamos no banco de dados os contatos
-        let contatos = localStorage.getItem("contatos")
-        // Pegamos o elemento que recebera os dados de contato
-        let divContatos = document.getElementById('contatos')
-        // Transformamos os contatos de string para Objeto
-        contatos = JSON.parse(contatos)
-        // Verificamos se temos contatos
-        if ( !contatos ){
-            // caso nao tenha enviamos uma mensagem
-            divContatos.innerHTML = '<p>Sem contatos no momento</p>'
-        } else {
-            // Caso tenha contatos percoremos eles com o forin
-            for (let i in contatos) {
-                // para cada contato chamamos a função imprimir
-                // o retorno da função é o conteudo que sera apresentado por casa contato
-                divContatos.innerHTML += imprimirContatos(contatos[i])
-            }            
+        // filtrosDaPagina é o objeto que controla os dados mostrados na pagina
+        let filtrosDaPagina = {
+            limite:5,
+            telefone:""
         }
+              
+        // Chamada da função iniciando com todos os contatos limitando a 5
+        filtrarContatos()
+        
+        // Função que ira filtrar os contatos e mostrar na tela
+        function filtrarContatos(){
+            // Pegamos no banco de dados os contatos
+            let contatos = localStorage.getItem("contatos")
+            // Pegamos o elemento que recebera os dados de contato
+            let divContatos = document.getElementById('contatos')
+            divContatos.innerHTML = ''
+            // Transformamos os contatos de string para Objeto
+            contatos = JSON.parse(contatos)
+
+            // Verificamos se temos contatos
+            if ( !contatos ){
+                // caso nao tenha enviamos uma mensagem
+                divContatos.innerHTML = '<p>Sem contatos no momento</p>'
+            } else {                
+                
+                // Variavel de controle de impressoes
+                let contatosImpressos = 0
+                // Caso tenha contatos percoremos eles com o forof
+                for (let contato  of contatos) {
+                    // Entrando no forof verificamos se o filtro de telefone foi aplicado
+                    // Caso sim resultado true Caso não resultado false
+                    // Depois, Caso o filtro de telefone estaja com telefone verificamos se o contato tem telefone 
+                    // Se as duas opcoes forem verdadeiras da true caso contrario false
+                    // Depois, Caso o filtro de telefone esteja sem telefone verificamos seo o contato não tem telefone
+                    // Se as duas opcoes forem verfadeiras da true caso contrario false
+                    // Pelo menos uma das opcoes tem que ser true para o contato ser contatoValido e impresso
+                    let contatoValido = ( filtrosDaPagina.telefone == "")  || (filtrosDaPagina.telefone == "CT" && contato.telefone ) || ( filtrosDaPagina.telefone == "ST" && !contato.telefone )
+                    
+                    if(contatoValido) {
+                        // para cada contato chamamos a função imprimir
+                        // o retorno da função é o conteudo que sera apresentado por casa contato
+                        divContatos.innerHTML += imprimirContatos(contato)
+                        contatosImpressos++
+                        if (filtrosDaPagina.limite === contatosImpressos) {
+                            break
+                        }
+                    }
+
+                }            
+            }   
+        }
+        
+        // Função que atribui o limite de contatos a serem exibidos
+        function filtrarLimite() {
+            // Selecionando o campo select limite
+            let limiteContatos = document.getElementById('limiteContatos')
+
+            // Convertemos o valor para numero e atribuimos ao obj filtrosDaPagina.limite
+            filtrosDaPagina.limite = Number(limiteContatos.value)
+            // Quando tiver alteração ira chamar a função filtrarContatos novamente
+            filtrarContatos()
+        }
+
+        // Função que define se os contados tem ou nao telefone
+        function filtrarPorTelefone() {
+            // Selecionando o campo select Telefone
+            let filtroTelefone = document.getElementById('filtroTelefone')
+
+            // Atribuimos o valor selecionado ao obj filtrosDaPagina.telefon
+            filtrosDaPagina.telefone = filtroTelefone.value
+            // Quando tiver alteração ira chamar a função filtrarContatos novamente
+            filtrarContatos()
+        }     
 
         //Declaração da função imprimir
         function imprimirContatos(contato){
@@ -54,7 +122,6 @@
             `
             // Retornamos o conteudo
             return content
-            
         }
     </script>
 </body>

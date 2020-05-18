@@ -4,36 +4,113 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=7">
     <meta name="description" content="Pagina de exercicios desenvolvida na comunidade codigopratodos.com">
-</head>
-<body>
-    <nav>
-        <a href="cadastro.html">Cadastro de Carros</a>
-        <a href="carros.html">Lista de carros</a>
-        <a href="lista-contatos.html">Lista de contatos</a>
-    </nav>
+    <title>AutosCarros MEIRELES - Contatos</title>
+    <style>
+        body{
+            font-size:   18px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        
+        h1 {
+            font-style: italic;
+        }
+      
+        .img-esquerda {
+            float: left;
+            margin:  8px;
+        }
+        .centralizado {
+            text-align: center;
+        }
+        .cabecalho {
+            background: #ff0001;
+            padding-left: 20%;
+            padding-right: 20%;
+        }
+        .logo {
+            color: #fff;
+        }
+        .menu {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu nav {
+            color: #fff;
+            margin: 10px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .menu a:hover{
+            text-decoration: underline;
+            color: #000;
+        }
+        .conteudo {
+            padding-right: 20%;
+            padding-left: 20%;
+        }
+        label {
+            font-size: 12px;
+            font-weight: bold;
+        }
+        input, textarea {
+            border-radius: 4px;
+            border: 1px solid #000000;
+            padding: 8px;
+            margin-bottom: 16px;
+            width: 200px;
+        }
 
-   <h1>Autocarros MEIRELES</h1>
-<p>
+        button {
+            padding: 12px;
+            border: 0px;
+            border-radius: 4px;
+            background-color: #000;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+  
+    </style>
+</head>
+<body>   
+<div class="cabecalho">
+    <div class="menu">
+        <h1 class="logo">AutosCarros MEIRELES</h1>
+        <nav>
+            <a href="cadastro.html">Cadastro de Carros</a>
+            <a href="carros.html">Lista de carros</a>
+            <a href="lista-contatos.html">Lista de contatos</a>
+        </nav>     
+    </div>
+</div>
+<div class="conteudo">
+<p class="centralizado">
     Temos os <strong>melhores carros</strong> com os <strong>melhores preços</strong>! <em>Venha conferir!</em>
 </p>
-<img src="imgs/carro01.jpg" align="left" height="200" alt="">
-
-<p>Entre em contato conosco através do formulario abaixo:</p>
-<form action="" id="contato">
-    <label for="nome">Nome Completo:</label>
-    <input type="text" id="nome" name="nomeCompleto" placeholder="Nome Completo..." required>
-    <br>
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" required name="email" placeholder="Digite seu e-mail...">
-    <br>
-    <label for="phone">Telefone:</label>
-    <input type="phone" id="phone" required name="telefone" placeholder="Fone...">
-    <br>
-    <label for="msg">Mensagem:</label>
-    <textarea name="mensagem" id="msg" required cols="30" rows="10"></textarea><br>
-    <button type="submit">Enviar</button>
-</form>
-
+    
+<img class="img-esquerda" src="imgs/carro01.jpg" height="400" alt="Imagem do carro">
+    <p>Entre em contato conosco através do formulario abaixo:</p>
+    <form action="" id="contato">
+        <label for="nome">Nome Completo:</label>
+        <br>
+        <input type="text" id="nome" name="nomeCompleto" placeholder="Nome Completo..." required>
+        <br>
+        <label for="email">E-mail:</label>
+        <br>
+        <input type="email" id="email" required name="email" placeholder="Digite seu e-mail...">
+        <br>
+        <label for="phone">Telefone:</label>
+        <br>
+        <input type="phone" id="phone" name="telefone" placeholder="Fone...">
+        <br>
+        <label for="msg">Mensagem:</label>
+        <br>
+        <textarea name="mensagem" id="msg" required ></textarea><br>
+        <button type="submit">Enviar</button>
+    </form>
+</div>
     <script>
         // Pegamos o fomulario para manipula-lo
         let formContato = document.getElementById('contato')
