@@ -4,37 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutosCarros MEIRELES - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <a href="carros.html">Lista de carros</a>
-        <a href="contato.html">Contato</a>
-        <a href="lista-contatos.html">Lista de contatos</a>
-    </nav>
-    <h1>AutosCarros MEIRELES</h1>
-    
-    <p>Cadastro de Carros para venda</p>
-    <p>Para adicionar um novo carro, preencha o formulario a seguir:</p>
+    <div class="cabecalho cabecalho-admin">
+        <div class="menu">
+            <h1 class="logo">AutosCarros MEIRELES</h1>
+            <nav>
+                <a href="carros.html">Lista de carros</a>
+                <a href="contato.html">Contatos</a>
+                <a href="lista-contatos.html">Lista de contatos</a>
+            </nav>
+        </div>
+    </div>
+    <div class="conteudo">
+        <p class="centralizado">Cadastro de Carros para venda</p>
+        <p>Para adicionar um novo carro, preencha o formulario a seguir:</p>
 
-    <form action="" id="cadastro">
-        <label for="marca">Marca:</label>
-        <input type="text" name="marca" id="marca" placeholder="Ex: Volkswagen" required>
-        <br>
-        <label for="modelo">Modelo:</label>
-        <input type="text" name="modelo" id="modelo" placeholder="Ex: Gol" required>
-        <br>
-        <label for="ano">Ano:</label>
-        <input type="text" name="ano" id="ano" placeholder="Ex: 2013" required>
-        <br>
-        <label for="preco">Preço:</label>
-        <input type="number" name="preco" id="preco" placeholder="Ex: 19350" required>
-        <br>
-        <label for="descricao">Descrição:</label>
-        <textarea name="descricao" id="descricao" cols="30" rows="5" placeholder="Ex: Carro em otimo estado, unico dono, bem conservado!"></textarea>
-        <br>
-        <button type="submit">Cadastrar</button>
-    </form>
-
+        <form action="" id="cadastro">
+            <label for="marca">Marca:</label>
+            <br>
+            <input type="text" name="marca" id="marca" placeholder="Ex: Volkswagen" required>
+            <br>
+            <label for="modelo">Modelo:</label>
+            <br>
+            <input type="text" name="modelo" id="modelo" placeholder="Ex: Gol" required>
+            <br>
+            <label for="ano">Ano:</label>
+            <br>
+            <input type="text" name="ano" id="ano" placeholder="Ex: 2013" required>
+            <br>
+            <label for="imgemCarro">Foto do Carro:</label>
+            <br>
+            <input type="text" name="imagemCarro" id="imagemCarro" placeholder="http://carros.com/exemplo1.jpg">
+            <br>
+            <label for="preco">Preço:</label>
+            <br>
+            <input type="number" name="preco" id="preco" placeholder="Ex: 19350" required>
+            <br>
+            <label for="descricao">Descrição:</label>
+            <br>
+            <textarea name="descricao" id="descricao" cols="30" rows="5" placeholder="Ex: Carro em otimo estado, unico dono, bem conservado!"></textarea>
+            <br>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
     <script>
 
         // Pega o formulario para monitorar quando for enviado
@@ -49,15 +63,17 @@
             e.preventDefault()
             // Obtem os dados dos campos do formulario
             let dadosDeCadastro = new FormData(formDeCadastro)
-            
+            // dadosDeCadastro.get('imagemCarro')
             // Salva em um Objeto os dados do carro
             let carro = {
                 marca: dadosDeCadastro.get("marca"),
                 modelo: dadosDeCadastro.get("modelo"),
+                imagemCarro: dadosDeCadastro.get('imagemCarro'),                
                 ano: Number(dadosDeCadastro.get("ano")),
                 preco: Number(dadosDeCadastro.get("preco")),
                 descricao: dadosDeCadastro.get("descricao"),
             }
+            
             // Verifica se o ano e o preco foram preenchidos
             if ( !carro.ano || !carro.preco ) {
                 alert("Por favor, preencha o modelo, ano e o preço do carro!")

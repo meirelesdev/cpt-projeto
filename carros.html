@@ -4,34 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutosCarros MEIRELES - Lista de Carros</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <a href="cadastro.html">Cadastro de Carros</a>
-        <a href="contato.html">Contato</a>
-        <a href="lista-contatos.html">Lista de contatos</a>
-    </nav>
-    <h1>AutosCarros MEIRELES</h1>
-    <p>Veja aqui nosso magnífico estoque de carros disponiveis a venda! Preços impativeis você só irá achar aqui!</p>
-    <h3>Lista de Carros</h3>
-    <label for="limiteDeCarros">Limitar Número de Carros:</label>
-    <select id="limiteDeCarros" onchange="ajustarLimiteDeCarros()">
-        <option value="5" selected>5 Carros</option>
-        <option value="10">10 Carros</option>
-        <option value="15">15 Carros</option>
-        <option value="20">20 Carros</option>
-    </select>
-    <label for="filtroDeMarca">Filtrar Marca do Veículo:</label>
-    <select id="filtroDeMarca" onchange="filtrarMarca()">
-        <option value="" selected>Todos</option>
-        <option value="Volkswagen">Volkswagen</option>
-        <option value="Ford">Ford</option>
-        <option value="Agrale">Agrale</option>
-        <option value="BMW">BMW</option>
-        <option value="Chevrolet">Chevrolet</option>
-    </select>
-    <!-- div que recebera a lista de carros  -->
-    <div id="carros"></div>
+    <div class="cabecalho">
+        <div class="menu">
+            <h1 class="logo">AutosCarros MEIRELES</h1>
+            <nav>
+                <a href="cadastro.html">Cadastro de Carros</a>
+                <a href="contato.html">Contato</a>
+                <a href="lista-contatos.html">Lista de contatos</a>
+            </nav>
+        </div>
+    </div>
+    <div class="conteudo">
+        <h3>Lista de Carros</h3>
+        <p class="centralizado">Veja aqui nosso magnífico estoque de carros disponiveis a venda! Preços impativeis você só irá achar aqui!</p>
+        <label for="limiteDeCarros">Limitar Número de Carros:</label>
+        <select id="limiteDeCarros" onchange="ajustarLimiteDeCarros()">
+            <option value="5" selected>5 Carros</option>
+            <option value="10">10 Carros</option>
+            <option value="15">15 Carros</option>
+            <option value="20">20 Carros</option>
+        </select>
+        <label for="filtroDeMarca">Filtrar Marca do Veículo:</label>
+        <select id="filtroDeMarca" onchange="filtrarMarca()">
+            <option value="" selected>Todos</option>
+            <option value="Volkswagen">Volkswagen</option>
+            <option value="Ford">Ford</option>
+            <option value="Agrale">Agrale</option>
+            <option value="BMW">BMW</option>
+            <option value="Chevrolet">Chevrolet</option>
+        </select>
+        
+        <!-- div que recebera a lista de carros  -->
+        <div id="carros"></div>
+    </div>
 
     <script>
             // Criando o filtro da pagina
@@ -50,7 +58,12 @@
                                 
     // Esta função executa uma vez quando a pagina é recarregada
     // E depois executa toda vez que o select é modificado
-    filtrarCarros()
+    if(carrosEmJSON !== null){
+        
+        filtrarCarros()
+    } else {
+        divCarros.innerHTML = `<p>Sem carros no momento</p>`
+    }
 
     function filtrarCarros() {
         // Limpamos a lista de carros
@@ -106,15 +119,28 @@
     // Função para colocar novo carro na pagina
     // Essa função só é chamada dentro da função filtrarCarros
     function imprimirCarro(carro){
+        // Verificamos se o preco é menor 20mil para aplicar a class CSS
+        let classPreco = (carro.preco <= 20000) ? "preco-especial" : "preco"
+        // Convertendo o valor do carro para monetario Brasil
+        let valorCarroFormat = carro.preco.toLocaleString('pt-BR')
         // Formatação do conteudo que vai dentro da div que lista os carros 
+        let imgCarro = (carro.imagemCarro) ? `<img class="" src="${carro.imagemCarro}" alt="Foto do carro">` : '<div class="sem-img">carro sem Imagem</div>'
         let textoDoCarro = `
+        <div class="card">
+            <header>
                 <h3>${carro.marca} ${carro.modelo} / Ano - ${carro.ano}</h3>
+                
+                <div class="${classPreco}">Apenas: R$ ${valorCarroFormat}</div>
+            </header>
+            <div>
                 <p>
-                <strong>Apenas: R$ ${carro.preco}</strong>
-                <br>
                 ${carro.descricao}
                 </p>
+                ${imgCarro}
+            <div>
+        </div>
         `
+        let classPrecoEspecial = `<div class="preco-especial">`
         // Inserimos o conteudo na div
         divCarros.innerHTML = divCarros.innerHTML + textoDoCarro
     }

@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutosCarros MEIRELES - Lista de Contatos</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <a href="cadastro.html">Cadastro de Carros</a>
-        <a href="carros.html">Lista de carros</a>
-        <a href="contato.html">Contato</a>
-    </nav>
-    <h1>AutosCarros MEIRELES</h1>
-    <p>Veja abaixo a lista de contatos enviados para o site:</p>
+    <div class="cabecalho cabecalho-admin">
+        <div class="menu">
+            <h1 class="logo">AutosCarros MEIRELES</h1>
+            <nav>
+                <a href="cadastro.html">Cadastro de Carros</a>
+                <a href="carros.html">Lista de carros</a>
+                <a href="contato.html">Contatos</a>
+            </nav>
+        </div>
+    </div>
+<div class="conteudo">
+    <p class="centralizado">Veja abaixo a lista de contatos enviados para o site:</p>
     <h2>Lista de Contatos</h2>
     <label for="filtroTelefone">Fitrar Telefone:</label>
     <select id="filtroTelefone" onchange="filtrarPorTelefone()">
@@ -28,6 +34,7 @@
         <option value="50">50 Mensagens</option>
     </select>
     <div id="contatos"></div>
+</div>
         
     <script>
         // filtrosDaPagina é o objeto que controla os dados mostrados na pagina
@@ -109,16 +116,19 @@
             // A função imprimir recebe um contato
             // e criamos a estrutura de apresentação do contato
             let content = `
-            <h3>${contato.nomeCompleto} ${contato.email}</h3>
-            <p>
-                <strong>Data/hora:</strong> ${new Date(contato.dataHora)}
-                <br>
+            <div class="card">
+                <header>
+                    <h3>${contato.nomeCompleto}</h3>            
+                    <div><strong>Data/hora:</strong> ${new Date(contato.dataHora).toLocaleString('pt-BR')}</div>
+                </header>
+                <strong>E-mail:</strong>${contato.email}<br>
                 <strong>Telefone:</strong> ${contato.telefone}
                 <br>
                 <strong>Mensagem:</strong>
                 <br>
                 ${contato.mensagem}
-            </p>    
+              
+            </div>
             `
             // Retornamos o conteudo
             return content
